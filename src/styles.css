@@ -1,3 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
-
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, dk-platform-root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; }
+input, textarea { font-family: inherit; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #D0D0C6; border: 2px solid transparent; background-clip: content-box; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #9A9A8E; background-clip: content-box; border: 2px solid transparent; }
+
+:root {
+  --ink-0: #FFFFFF;
+  --ink-1: #FAFAF7;
+  --ink-2: #F1F1EC;
+  --ink-3: #E6E6DF;
+  --ink-4: #D0D0C6;
+  --ink-5: #9A9A8E;
+  --ink-6: #5B5B52;
+  --ink-7: #2A2A26;
+  --ink-8: #17171A;
+  --ink-9: #0A0A0B;
+
+  --brand-50: #E9FBEF;
+  --brand-100: #C8F4D6;
+  --brand-400: #1FBE67;
+  --brand-500: #0AA352;
+  --brand-600: #048142;
+  --brand-700: #046635;
+
+  --ff-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --ff-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --ease-standard: cubic-bezier(.2,.7,.2,1);
+  --dur-2: 160ms;
+}
