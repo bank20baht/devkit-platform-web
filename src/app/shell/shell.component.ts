@@ -24,24 +24,21 @@ import { TweaksPanelComponent } from './tweaks-panel/tweaks-panel.component';
         (toolPick)="svc.pickTool($event)"
         (toggleCollapse)="svc.sidebarCollapsed.update(v => !v)"
       />
-      <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;">
         <dk-platform-topbar
           [tool]="activeTool()"
           [T]="T()"
           [theme]="tweaks().theme"
           (themeToggle)="toggleTheme()"
-          (openPalette)="paletteOpen.set(true)"
+          (openPalette)="svc.paletteOpen.set(true)"
         />
-        <dk-platform-workspace
-          [tool]="activeTool()"
-          [T]="T()"
-        />
+        <dk-platform-workspace />
       </div>
       <dk-platform-palette
-        [open]="paletteOpen()"
+        [open]="svc.paletteOpen()"
         [T]="T()"
         [recent]="svc.recentTools()"
-        (closed)="paletteOpen.set(false)"
+        (closed)="svc.paletteOpen.set(false)"
         (toolPick)="svc.pickTool($event)"
       />
       <dk-platform-tweaks-panel
@@ -56,7 +53,6 @@ import { TweaksPanelComponent } from './tweaks-panel/tweaks-panel.component';
 })
 export class ShellComponent {
   svc = inject(TweaksService);
-  paletteOpen = signal(false);
   tweaksVisible = signal(false);
 
   tweaks = this.svc.tweaks;
@@ -80,7 +76,7 @@ export class ShellComponent {
   onGlobalKey(e: KeyboardEvent) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
-      this.paletteOpen.update(o => !o);
+      this.svc.paletteOpen.update(o => !o);
     }
   }
 }

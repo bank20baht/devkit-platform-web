@@ -42,6 +42,7 @@ export class TweaksService {
   recentTools = signal<string[]>(loadLS<string[]>(LS.recent, []));
   sidebarCollapsed = signal<boolean>(loadLS<boolean>(LS.collapsed, false));
   tweaks = signal<Tweaks>({ ...TWEAK_DEFAULTS, ...loadLS<Partial<Tweaks>>(LS.tweaks, {}) });
+  paletteOpen = signal(false);
 
   constructor() {
     effect(() => saveLS(LS.active, this.activeTool()));
