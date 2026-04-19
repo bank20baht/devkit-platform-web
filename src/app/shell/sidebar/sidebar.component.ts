@@ -1,6 +1,6 @@
 import { Component, input, output, computed, signal, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { TOOLS, CAT_ORDER, Tool } from '../../core/tools';
+import { Tool } from '../../core/tools';
 import { ThemePalette } from '../../core/theme';
 import { IconComponent } from '../../shared/icon/icon.component';
 
@@ -18,7 +18,7 @@ import { IconComponent } from '../../shared/icon/icon.component';
           <dk-icon name="panel-left-open" [size]="16" />
         </button>
         <div style="flex:1;overflow:auto;padding:6px 0;display:flex;flex-direction:column;">
-          @for (t of tools; track t.id) {
+          @for (t of tools(); track t.id) {
             <button (click)="toolPick.emit(t.id)" [title]="t.name" [style]="railItemStyle(t.id === activeId())">
               <dk-icon [name]="t.ic" [size]="18" [strokeWidth]="1.5" />
               @if (t.id === activeId()) {
@@ -99,7 +99,7 @@ import { IconComponent } from '../../shared/icon/icon.component';
           <span style="display:flex;align-items:center;gap:6px;">
             <span [style.color]="T().brand">●</span> 100% offline
           </span>
-          <span style="opacity:.7">{{ tools.length }} tools</span>
+          <span style="opacity:.7">{{ tools().length }} tools</span>
         </div>
       }
     </aside>
@@ -133,6 +133,9 @@ export class SidebarComponent {
   recent = input<string[]>([]);
   T = input.required<ThemePalette>();
 
+  tools = input<Tool[]>([]);
+  catOrder = input<string[]>([]);
+
   toolPick = output<string>();
   toggleCollapse = output<void>();
 
@@ -141,13 +144,10 @@ export class SidebarComponent {
   query = signal('');
   focusIdx = signal(0);
 
-  tools = TOOLS;
-  catOrder = CAT_ORDER;
-
   filtered = computed(() => {
     const q = this.query().trim().toLowerCase();
-    if (!q) return TOOLS;
-    return TOOLS.filter(t =>
+    if (!q) return this.tools();
+    return this.tools().filter(t =>
       t.name.toLowerCase().includes(q) ||
       t.cat.toLowerCase().includes(q) ||
       t.desc.toLowerCase().includes(q)
@@ -159,19 +159,19 @@ export class SidebarComponent {
     const byCat: Record<string, Tool[]> = {};
     this.filtered().forEach(t => { (byCat[t.cat] = byCat[t.cat] || []).push(t); });
     const out: Tool[] = [];
-    CAT_ORDER.forEach(c => { if (byCat[c]) out.push(...byCat[c]); });
-    Object.keys(byCat).forEach(c => { if (!CAT_ORDER.includes(c)) out.push(...byCat[c]); });
+    this.catOrder().forEach(c => { if (byCat[c]) out.push(...byCat[c]); });
+    Object.keys(byCat).forEach(c => { if (!this.catOrder().includes(c)) out.push(...byCat[c]); });
     return out;
   });
 
   visibleCats = computed(() => {
     const byCat: Record<string, Tool[]> = {};
     this.filtered().forEach(t => { (byCat[t.cat] = byCat[t.cat] || []).push(t); });
-    return [...CAT_ORDER.filter(c => byCat[c]), ...Object.keys(byCat).filter(c => !CAT_ORDER.includes(c))];
+    return [...this.catOrder().filter(c => byCat[c]), ...Object.keys(byCat).filter(c => !this.catOrder().includes(c))];
   });
 
   toolById(id: string): Tool | undefined {
-    return TOOLS.find(t => t.id === id);
+    return this.tools().find(t => t.id === id);
   }
 
   toolsByCat(cat: string): Tool[] {

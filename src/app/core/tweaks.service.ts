@@ -1,4 +1,5 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TOOLS, Tool } from './tools';
 
 export interface Tweaks {
@@ -38,6 +39,8 @@ const TWEAK_DEFAULTS: Tweaks = {
 
 @Injectable({ providedIn: 'root' })
 export class TweaksService {
+  private router = inject(Router);
+
   activeTool = signal<string | null>(loadLS<string | null>(LS.active, null));
   recentTools = signal<string[]>(loadLS<string[]>(LS.recent, []));
   sidebarCollapsed = signal<boolean>(loadLS<boolean>(LS.collapsed, false));
@@ -54,6 +57,8 @@ export class TweaksService {
   pickTool(id: string): void {
     this.activeTool.set(id);
     this.recentTools.update(prev => [id, ...prev.filter(x => x !== id)].slice(0, 6));
+    const tool = TOOLS.find(t => t.id === id);
+    if (tool?.path) this.router.navigate([tool.path]);
   }
 
   setTweak<K extends keyof Tweaks>(key: K, value: Tweaks[K]): void {

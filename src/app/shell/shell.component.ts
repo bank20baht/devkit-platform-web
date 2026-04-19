@@ -1,6 +1,7 @@
 import { Component, computed, signal, HostListener, inject } from '@angular/core';
 import { TweaksService, Tweaks } from '../core/tweaks.service';
 import { dkTheme } from '../core/theme';
+import { TOOLS, CAT_ORDER } from '../core/tools';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
@@ -13,6 +14,8 @@ import { TweaksPanelComponent } from './tweaks-panel/tweaks-panel.component';
   template: `
     <div [style]="rootStyle()" [attr.data-theme]="tweaks().theme">
       <dk-platform-sidebar
+        [tools]="allTools"
+        [catOrder]="catOrder"
         [activeId]="svc.activeTool()"
         [collapsed]="svc.sidebarCollapsed()"
         [density]="tweaks().density"
@@ -54,6 +57,9 @@ import { TweaksPanelComponent } from './tweaks-panel/tweaks-panel.component';
 export class ShellComponent {
   svc = inject(TweaksService);
   tweaksVisible = signal(false);
+
+  readonly allTools = TOOLS;
+  readonly catOrder = CAT_ORDER;
 
   tweaks = this.svc.tweaks;
   T = computed(() => dkTheme(this.svc.tweaks().theme));
