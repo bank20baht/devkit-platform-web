@@ -1,0 +1,19 @@
+<div [style]="pageStyle()">
+  <div [style]="cardStyle()">
+    <div [style]="iconWrapStyle()">
+      <dk-icon name="plug-zap" [size]="32" [strokeWidth]="1.5" />
+    </div>
+    <h2 [style]="titleStyle()">Tool Unavailable</h2>
+    <p [style]="descStyle()">
+      This tool couldn't be loaded. The remote module may be down or unreachable.
+    </p>
+    <div [style]="metaStyle()">
+      <dk-icon name="wifi-off" [size]="12" />
+      <span>Remote connection failed</span>
+    </div>
+    <button (click)="goHome()" [style]="btnStyle()">
+      <dk-icon name="arrow-left" [size]="14" />
+      Back to tools
+    </button>
+  </div>
+</div>

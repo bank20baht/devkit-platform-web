@@ -1,7 +1,12 @@
 import { Routes } from '@angular/router';
+import { loadRemoteModule } from '@angular-architects/native-federation';
 import { ShellComponent } from './modules/shell/shell.component';
 import { LandingPageComponent } from './modules/landing-page/landing-page.component';
-import { loadRemoteModule } from '@angular-architects/native-federation';
+import { FallbackComponent } from './components/fallback/fallback.component';
+
+const fallbackRoutes: Routes = [
+  { path: '', component: FallbackComponent },
+];
 
 export const routes: Routes = [
   {
@@ -12,9 +17,12 @@ export const routes: Routes = [
       {
         path: 'diff-checker',
         loadChildren: () =>
-          loadRemoteModule('devkit-diff-checker-web', './dk-diff-checker-routes').then(
-            (m) => m.routes,
-          ),
+          loadRemoteModule('devkit-diff-checker-web', './dk-diff-checker-routes')
+            .then((m) => m.routes)
+            .catch((error) => {
+              console.error('Error loading remote module: devkit-diff-checker-web', error);
+              return fallbackRoutes;
+            }),
       },
     ],
   },
