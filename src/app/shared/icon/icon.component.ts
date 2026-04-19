@@ -4,7 +4,8 @@ import { LucideAngularModule } from 'lucide-angular';
 @Component({
   selector: 'dk-icon',
   imports: [LucideAngularModule],
-  template: `<lucide-icon [name]="name()" [size]="size()" [strokeWidth]="strokeWidth()" style="display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;" />`,
+  templateUrl: './icon.component.html',
+  styleUrl: './icon.component.css',
 })
 export class IconComponent {
   name = input.required<string>();

@@ -1,0 +1,19 @@
+.prompt-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+.panel-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.live-badge {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+
+.panel-body {
+  padding: 0 14px 10px;
+}

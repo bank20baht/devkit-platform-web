@@ -1,0 +1,31 @@
+<div [style]="wrapStyle()">
+  <div class="breadcrumb">
+    <span [style.color]="T().fgSubtle">devkit</span>
+    <span [style.color]="T().border">/</span>
+    <span [style.color]="T().fgSubtle">{{ tool() ? tool()!.cat : 'Tools' }}</span>
+    <span [style.color]="T().border">/</span>
+    <span [style.color]="T().fg" class="breadcrumb-active">{{ tool() ? tool()!.name : 'Select a tool' }}</span>
+  </div>
+
+  <div class="actions">
+    <button (click)="openPalette.emit()" [style]="paletteBtnStyle()">
+      <dk-icon name="search" [size]="12" />
+      <span class="palette-label">Jump to tool</span>
+      <span [style]="kbdStyle()">⌘K</span>
+    </button>
+
+    <span [style]="pillStyle()">
+      <span [style.color]="T().brand">●</span> local
+    </span>
+
+    <button (click)="themeToggle.emit()" title="Toggle theme" [style]="iconBtnStyle()">
+      <dk-icon [name]="theme() === 'dark' ? 'sun' : 'moon'" [size]="14" />
+    </button>
+
+    <button title="Share" [style]="iconBtnStyle()">
+      <dk-icon name="share-2" [size]="14" />
+    </button>
+
+    <div [style]="avatarStyle()">DK</div>
+  </div>
+</div>

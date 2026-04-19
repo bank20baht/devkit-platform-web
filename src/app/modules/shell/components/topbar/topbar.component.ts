@@ -1,44 +1,13 @@
 import { Component, input, output, computed } from '@angular/core';
-import { Tool } from '../../core/tools';
-import { ThemePalette } from '../../core/theme';
-import { IconComponent } from '../../shared/icon/icon.component';
+import { Tool } from '../../../../core/tools';
+import { ThemePalette } from '../../../../core/theme';
+import { IconComponent } from '../../../../shared/icon/icon.component';
 
 @Component({
   selector: 'dk-platform-topbar',
   imports: [IconComponent],
-  template: `
-    <div [style]="wrapStyle()">
-      <div style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12px;">
-        <span [style.color]="T().fgSubtle">devkit</span>
-        <span [style.color]="T().border">/</span>
-        <span [style.color]="T().fgSubtle">{{ tool() ? tool()!.cat : 'Tools' }}</span>
-        <span [style.color]="T().border">/</span>
-        <span [style.color]="T().fg" style="font-weight:500">{{ tool() ? tool()!.name : 'Select a tool' }}</span>
-      </div>
-
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button (click)="openPalette.emit()" [style]="paletteBtnStyle()">
-          <dk-icon name="search" [size]="12" />
-          <span style="opacity:.8">Jump to tool</span>
-          <span [style]="kbdStyle()">⌘K</span>
-        </button>
-
-        <span [style]="pillStyle()">
-          <span [style.color]="T().brand">●</span> local
-        </span>
-
-        <button (click)="themeToggle.emit()" [title]="'Toggle theme'" [style]="iconBtnStyle()">
-          <dk-icon [name]="theme() === 'dark' ? 'sun' : 'moon'" [size]="14" />
-        </button>
-
-        <button title="Share" [style]="iconBtnStyle()">
-          <dk-icon name="share-2" [size]="14" />
-        </button>
-
-        <div [style]="avatarStyle()">DK</div>
-      </div>
-    </div>
-  `,
+  templateUrl: './topbar.component.html',
+  styleUrl: './topbar.component.css',
 })
 export class TopbarComponent {
   tool = input<Tool | null>(null);

@@ -1,5 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { TweaksService } from '../../core/tweaks.service';
 import { dkTheme } from '../../core/theme';
 import { TOOLS, CAT_ORDER, Tool } from '../../core/tools';
@@ -8,44 +7,11 @@ import { IconComponent } from '../../shared/icon/icon.component';
 @Component({
   selector: 'dk-platform-landing',
   imports: [IconComponent],
-  template: `
-    <div [style]="pageStyle()">
-      <div [style]="headerStyle()">
-        <div [style]="logoStyle()">dk</div>
-        <div>
-          <h1 [style]="titleStyle()">devkit</h1>
-          <p [style]="subtitleStyle()">{{ totalTools }} tools · 100% offline · no telemetry</p>
-        </div>
-      </div>
-
-      @for (cat of visibleCats; track cat) {
-        <section style="margin-bottom: 32px;">
-          <div [style]="catLabelStyle()">{{ cat }}</div>
-          <div [style]="gridStyle()">
-            @for (tool of byCat[cat]; track tool.id) {
-              <button (click)="pick(tool)" [style]="cardStyle()" (mouseenter)="hovered = tool.id" (mouseleave)="hovered = null" [class.hovered]="hovered === tool.id">
-                <span [style]="cardIconStyle()">
-                  <dk-icon [name]="tool.ic" [size]="20" [strokeWidth]="1.5" />
-                </span>
-                <div style="flex: 1; min-width: 0; text-align: left;">
-                  <div [style]="cardNameStyle()">{{ tool.name }}</div>
-                  <div [style]="cardDescStyle()">{{ tool.desc }}</div>
-                </div>
-                <dk-icon name="arrow-right" [size]="14" [strokeWidth]="1.5" [style]="arrowStyle()" />
-              </button>
-            }
-          </div>
-        </section>
-      }
-    </div>
-  `,
-  styles: [`
-    button.hovered { outline: none; }
-  `],
+  templateUrl: './landing-page.component.html',
+  styleUrl: './landing-page.component.css',
 })
-export class LandingComponent {
+export class LandingPageComponent {
   private svc = inject(TweaksService);
-  private router = inject(Router);
   private T = computed(() => dkTheme(this.svc.tweaks().theme));
 
   hovered: string | null = null;
@@ -128,18 +94,21 @@ export class LandingComponent {
     gap: '8px',
   }));
 
-  cardStyle = computed(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '12px 14px',
-    borderRadius: '8px',
-    border: `1px solid ${this.T().border}`,
-    background: this.T().surface,
-    cursor: 'pointer',
-    transition: 'border-color 120ms, box-shadow 120ms',
-    width: '100%',
-  }));
+  cardStyle(id: string) {
+    const active = this.hovered === id;
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      padding: '12px 14px',
+      borderRadius: '8px',
+      border: `1px solid ${active ? this.T().brand : this.T().border}`,
+      background: active ? this.T().brandBg : this.T().surface,
+      cursor: 'pointer',
+      transition: 'border-color 120ms, background 120ms',
+      width: '100%',
+    };
+  }
 
   cardIconStyle = computed(() => ({
     width: '36px',

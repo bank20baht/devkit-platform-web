@@ -1,0 +1,51 @@
+@if (visible()) {
+  <div [style]="panelStyle()">
+    <div [style]="headerStyle()">
+      <span [style.color]="T().brand" class="prompt-symbol">&gt;</span>
+      <span class="panel-title" [style.color]="T().fg">Tweaks</span>
+      <span class="live-badge" [style.color]="T().fgSubtle">live</span>
+    </div>
+    <div class="panel-body">
+      <div [style]="rowStyle()">
+        <span [style]="labelStyle()">Density</span>
+        <div [style]="segWrapStyle()">
+          @for (opt of [['compact','compact'],['comfy','comfy']]; track opt[0]) {
+            <button [style]="segBtnStyle(tweaks().density === opt[0])" (click)="emit('density', opt[0])">{{ opt[1] }}</button>
+          }
+        </div>
+      </div>
+      <div [style]="rowStyle()">
+        <span [style]="labelStyle()">Group by category</span>
+        <div [style]="segWrapStyle()">
+          @for (opt of [[true,'on'],[false,'off']]; track opt[0]) {
+            <button [style]="segBtnStyle(tweaks().grouped === opt[0])" (click)="emit('grouped', opt[0])">{{ opt[1] }}</button>
+          }
+        </div>
+      </div>
+      <div [style]="rowStyle()">
+        <span [style]="labelStyle()">Show descriptions</span>
+        <div [style]="segWrapStyle()">
+          @for (opt of [[true,'on'],[false,'off']]; track opt[0]) {
+            <button [style]="segBtnStyle(tweaks().showDesc === opt[0])" (click)="emit('showDesc', opt[0])">{{ opt[1] }}</button>
+          }
+        </div>
+      </div>
+      <div [style]="rowStyle()">
+        <span [style]="labelStyle()">Recent section</span>
+        <div [style]="segWrapStyle()">
+          @for (opt of [[true,'on'],[false,'off']]; track opt[0]) {
+            <button [style]="segBtnStyle(tweaks().showRecent === opt[0])" (click)="emit('showRecent', opt[0])">{{ opt[1] }}</button>
+          }
+        </div>
+      </div>
+      <div [style]="rowStyle()">
+        <span [style]="labelStyle()">Theme</span>
+        <div [style]="segWrapStyle()">
+          @for (opt of [['light','light'],['dark','dark']]; track opt[0]) {
+            <button [style]="segBtnStyle(tweaks().theme === opt[0])" (click)="emit('theme', opt[0])">{{ opt[1] }}</button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

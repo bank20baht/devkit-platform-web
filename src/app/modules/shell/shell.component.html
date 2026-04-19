@@ -1,0 +1,39 @@
+<div [style]="rootStyle()" [attr.data-theme]="tweaks().theme">
+  <dk-platform-sidebar
+    [tools]="allTools"
+    [catOrder]="catOrder"
+    [activeId]="svc.activeTool()"
+    [collapsed]="svc.sidebarCollapsed()"
+    [density]="tweaks().density"
+    [showDesc]="tweaks().showDesc"
+    [grouped]="tweaks().grouped"
+    [showRecent]="tweaks().showRecent"
+    [recent]="svc.recentTools()"
+    [T]="T()"
+    (toolPick)="svc.pickTool($event)"
+    (toggleCollapse)="svc.sidebarCollapsed.update(v => !v)"
+  />
+  <div class="content-area">
+    <dk-platform-topbar
+      [tool]="activeTool()"
+      [T]="T()"
+      [theme]="tweaks().theme"
+      (themeToggle)="toggleTheme()"
+      (openPalette)="svc.paletteOpen.set(true)"
+    />
+    <dk-platform-workspace />
+  </div>
+  <dk-platform-palette
+    [open]="svc.paletteOpen()"
+    [T]="T()"
+    [recent]="svc.recentTools()"
+    (closed)="svc.paletteOpen.set(false)"
+    (toolPick)="svc.pickTool($event)"
+  />
+  <dk-platform-tweaks-panel
+    [visible]="tweaksVisible()"
+    [tweaks]="tweaks()"
+    [T]="T()"
+    (tweakChange)="svc.setTweak($event.key, $any($event.value))"
+  />
+</div>

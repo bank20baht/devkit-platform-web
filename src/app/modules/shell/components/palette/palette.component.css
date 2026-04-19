@@ -1,0 +1,41 @@
+.prompt-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+.results-list {
+  overflow-y: auto;
+  max-height: 320px;
+}
+
+.item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  font-size: 13px;
+}
+
+.item-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  margin-top: 1px;
+}
+
+.item-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+
+.item-enter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+.no-results {
+  padding: 28px;
+  text-align: center;
+  font-size: 13px;
+}

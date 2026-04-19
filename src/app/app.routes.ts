@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ShellComponent } from './shell/shell.component';
-import { LandingComponent } from './shell/landing/landing.component';
+import { ShellComponent } from './modules/shell/shell.component';
+import { LandingPageComponent } from './modules/landing-page/landing-page.component';
 import { loadRemoteModule } from '@angular-architects/native-federation';
 
 export const routes: Routes = [
@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '',
     component: ShellComponent,
     children: [
-      { path: '', component: LandingComponent },
+      { path: '', component: LandingPageComponent },
       {
         path: 'diff-checker',
         loadChildren: () =>

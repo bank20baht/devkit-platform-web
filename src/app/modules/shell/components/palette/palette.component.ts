@@ -1,66 +1,13 @@
 import { Component, input, output, computed, signal, effect, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { TOOLS, Tool } from '../../core/tools';
-import { ThemePalette } from '../../core/theme';
-import { IconComponent } from '../../shared/icon/icon.component';
+import { TOOLS, Tool } from '../../../../core/tools';
+import { ThemePalette } from '../../../../core/theme';
+import { IconComponent } from '../../../../shared/icon/icon.component';
 
 @Component({
   selector: 'dk-platform-palette',
   imports: [IconComponent],
-  template: `
-    @if (open()) {
-      <div [style]="backdropStyle()" (click)="closed.emit()">
-        <div [style]="panelStyle()" (click)="$event.stopPropagation()">
-          <div [style]="searchRowStyle()">
-            <span [style.color]="T().brand" style="font-family:'JetBrains Mono',monospace;font-weight:700;">&gt;</span>
-            <input
-              #searchInput
-              [value]="query()"
-              (input)="query.set($any($event.target).value)"
-              placeholder="Search tools, actions…"
-              [style]="inputStyle()"
-            />
-            <span [style]="escKbdStyle()">⎋</span>
-          </div>
-          <div style="overflow-y:auto;max-height:320px;">
-            @if (showingRecent()) {
-              <div [style]="sectionLabelStyle()">Recent</div>
-            }
-            @for (item of items(); track item.tool.id; let i = $index) {
-              @if (item.showDivider) {
-                <div [style]="sectionLabelStyle()">All tools</div>
-              }
-              <div
-                (click)="pick(item.tool)"
-                (mouseenter)="sel.set(i)"
-                [style]="itemStyle(i === sel())"
-              >
-                <span [style]="itemIconStyle(i === sel())">
-                  <dk-icon [name]="item.tool.ic" [size]="15" />
-                </span>
-                <div style="flex:1;min-width:0;">
-                  <div style="font-size:13px;" [style.color]="T().fg">{{ item.tool.name }}</div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;margin-top:1px;" [style.color]="T().fgSubtle">{{ item.tool.desc }}</div>
-                </div>
-                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;" [style.color]="T().fgSubtle">{{ item.tool.cat.toLowerCase() }}</span>
-                @if (i === sel()) {
-                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-left:6px;" [style.color]="T().fgMuted">⏎</span>
-                }
-              </div>
-            }
-            @if (items().length === 0) {
-              <div style="padding:28px;text-align:center;font-size:13px;" [style.color]="T().fgSubtle">
-                No results for <code [style]="noResultCodeStyle()">{{ query() }}</code>.
-              </div>
-            }
-          </div>
-          <div [style]="footStyle()">
-            <span>↑↓ navigate · ⏎ run · ⎋ close</span>
-            <span>{{ items().length }} result{{ items().length === 1 ? '' : 's' }}</span>
-          </div>
-        </div>
-      </div>
-    }
-  `,
+  templateUrl: './palette.component.html',
+  styleUrl: './palette.component.css',
 })
 export class PaletteComponent {
   open = input<boolean>(false);

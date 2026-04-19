@@ -1,0 +1,34 @@
+<div [style]="pageStyle()">
+  <div [style]="headerStyle()">
+    <div [style]="logoStyle()">dk</div>
+    <div>
+      <h1 [style]="titleStyle()">devkit</h1>
+      <p [style]="subtitleStyle()">{{ totalTools }} tools · 100% offline · no telemetry</p>
+    </div>
+  </div>
+
+  @for (cat of visibleCats; track cat) {
+    <section class="cat-section">
+      <div [style]="catLabelStyle()">{{ cat }}</div>
+      <div [style]="gridStyle()">
+        @for (tool of byCat[cat]; track tool.id) {
+          <button
+            (click)="pick(tool)"
+            (mouseenter)="hovered = tool.id"
+            (mouseleave)="hovered = null"
+            [style]="cardStyle(tool.id)"
+          >
+            <span [style]="cardIconStyle()">
+              <dk-icon [name]="tool.ic" [size]="20" [strokeWidth]="1.5" />
+            </span>
+            <div class="card-text">
+              <div [style]="cardNameStyle()">{{ tool.name }}</div>
+              <div [style]="cardDescStyle()">{{ tool.desc }}</div>
+            </div>
+            <dk-icon name="arrow-right" [size]="14" [strokeWidth]="1.5" [style]="arrowStyle()" />
+          </button>
+        }
+      </div>
+    </section>
+  }
+</div>

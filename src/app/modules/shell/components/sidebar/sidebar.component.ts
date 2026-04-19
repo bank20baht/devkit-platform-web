@@ -1,127 +1,14 @@
 import { Component, input, output, computed, signal, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { Tool } from '../../core/tools';
-import { ThemePalette } from '../../core/theme';
-import { IconComponent } from '../../shared/icon/icon.component';
+import { Tool } from '../../../../core/tools';
+import { ThemePalette } from '../../../../core/theme';
+import { IconComponent } from '../../../../shared/icon/icon.component';
 
 @Component({
   selector: 'dk-platform-sidebar',
   imports: [IconComponent, NgTemplateOutlet],
-  template: `
-    <aside [style]="wrapStyle()">
-      @if (collapsed()) {
-        <!-- Rail mode -->
-        <div [style]="brandRailStyle()">
-          <div [style]="logoBoxStyle()">dk</div>
-        </div>
-        <button (click)="toggleCollapse.emit()" title="Expand sidebar" [style]="railBtnStyle()">
-          <dk-icon name="panel-left-open" [size]="16" />
-        </button>
-        <div style="flex:1;overflow:auto;padding:6px 0;display:flex;flex-direction:column;">
-          @for (t of tools(); track t.id) {
-            <button (click)="toolPick.emit(t.id)" [title]="t.name" [style]="railItemStyle(t.id === activeId())">
-              <dk-icon [name]="t.ic" [size]="18" [strokeWidth]="1.5" />
-              @if (t.id === activeId()) {
-                <span [style]="railBarStyle()"></span>
-              }
-            </button>
-          }
-        </div>
-        <div [style]="footStyle()">
-          <span [style.color]="T().brand">●</span>
-        </div>
-      } @else {
-        <!-- Expanded mode -->
-        <div [style]="brandStyle()">
-          <div [style]="logoBoxStyle()">dk</div>
-          <span [style]="brandNameStyle()">devkit</span>
-          <span [style]="brandVerStyle()">v1.0.3</span>
-          <button (click)="toggleCollapse.emit()" title="Collapse sidebar" [style]="collapseBtnStyle()">
-            <dk-icon name="panel-left-close" [size]="14" />
-          </button>
-        </div>
-        <div [style]="searchWrapStyle()">
-          <span style="position:absolute;left:22px;top:50%;transform:translateY(-50%);display:flex;align-items:center;" [style.color]="T().fgSubtle">
-            <dk-icon name="search" [size]="13" />
-          </span>
-          <input
-            #searchInput
-            [style]="searchInputStyle()"
-            placeholder="Search tools…"
-            [value]="query()"
-            (input)="query.set($any($event.target).value)"
-            (keydown)="onSearchKey($event)"
-          />
-          <span [style]="searchKbdStyle()">/</span>
-        </div>
-        <div style="flex:1;overflow:auto;">
-          @if (!grouped() || query().trim()) {
-            <div style="padding:6px 8px;">
-              @if (query().trim()) {
-                <div [style]="catLabelStyle()">{{ flatOrder().length }} result{{ flatOrder().length === 1 ? '' : 's' }}</div>
-              }
-              @for (t of flatOrder(); track t.id; let i = $index) {
-                <ng-container *ngTemplateOutlet="toolRow; context: { t, i }" />
-              }
-              @if (flatOrder().length === 0) {
-                <div style="padding:24px 12px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;" [style.color]="T().fgSubtle">
-                  No tools match <code>{{ query() }}</code>.
-                </div>
-              }
-            </div>
-          } @else {
-            <div style="padding:6px 8px;">
-              @if (showRecent() && recent().length > 0) {
-                <div style="margin-bottom:12px;">
-                  <div [style]="catLabelStyle()" style="display:flex;align-items:center;gap:6px;">
-                    <dk-icon name="history" [size]="10" />
-                    <span>Recent</span>
-                  </div>
-                  @for (id of recent().slice(0,3); track id) {
-                    @if (toolById(id); as t) {
-                      <ng-container *ngTemplateOutlet="toolRow; context: { t, i: recentIdx(id) }" />
-                    }
-                  }
-                </div>
-              }
-              @for (cat of visibleCats(); track cat) {
-                <div style="margin-bottom:10px;">
-                  <div [style]="catLabelStyle()">{{ cat }}</div>
-                  @for (t of toolsByCat(cat); track t.id; let i = $index) {
-                    <ng-container *ngTemplateOutlet="toolRow; context: { t, i: catFlatIdx(cat, i) }" />
-                  }
-                </div>
-              }
-            </div>
-          }
-        </div>
-        <div [style]="footStyle()">
-          <span style="display:flex;align-items:center;gap:6px;">
-            <span [style.color]="T().brand">●</span> 100% offline
-          </span>
-          <span style="opacity:.7">{{ tools().length }} tools</span>
-        </div>
-      }
-    </aside>
-
-    <ng-template #toolRow let-t="t" let-i="i">
-      <div
-        (click)="toolPick.emit(t.id)"
-        (mouseenter)="focusIdx.set(i)"
-        [style]="rowStyle(t.id === activeId(), i === focusIdx())"
-      >
-        <span [style]="rowIconStyle(t.id === activeId())">
-          <dk-icon [name]="t.ic" [size]="16" [strokeWidth]="1.5" />
-        </span>
-        <div style="flex:1;min-width:0;">
-          <div [style]="rowNameStyle(t.id === activeId())">{{ t.name }}</div>
-          @if (showDesc()) {
-            <div [style]="rowDescStyle()">{{ t.desc }}</div>
-          }
-        </div>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   activeId = input<string | null>(null);
@@ -132,7 +19,6 @@ export class SidebarComponent {
   showRecent = input<boolean>(true);
   recent = input<string[]>([]);
   T = input.required<ThemePalette>();
-
   tools = input<Tool[]>([]);
   catOrder = input<string[]>([]);
 
@@ -205,7 +91,6 @@ export class SidebarComponent {
     }
   }
 
-  // Styles
   wrapStyle = computed(() => ({
     flexShrink: '0',
     display: 'flex',
