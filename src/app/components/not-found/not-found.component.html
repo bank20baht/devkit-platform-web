@@ -1,0 +1,13 @@
+<div [style]="pageStyle()">
+  <div [style]="cardStyle()">
+    <div [style]="codeStyle()">404</div>
+    <h2 [style]="titleStyle()">Page Not Found</h2>
+    <p [style]="descStyle()">
+      The path <code [style]="pathStyle()">{{ currentPath }}</code> doesn't exist.
+    </p>
+    <button (click)="goHome()" [style]="btnStyle()">
+      <dk-icon name="arrow-left" [size]="14" />
+      Back to tools
+    </button>
+  </div>
+</div>
