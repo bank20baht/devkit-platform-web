@@ -12,7 +12,7 @@
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
         },
         "StringLike": {
-          "token.actions.githubusercontent.com:sub": "repo:${GITHUB_ORG}/${REPO}:ref:refs/heads/main"
+          "token.actions.githubusercontent.com:sub": "repo:bank20baht/devkit-platform-web:*"
         }
       }
     }
