@@ -55,6 +55,4 @@ bun run test        # Run unit tests
 
 ## Deployment
 
-```bash
-./deploy.sh         # Build and deploy to S3 + Cloudflare
-```
+Push to `main` triggers GitHub Actions (`.github/workflows/deploy.yml`), which builds and deploys to Cloudflare Pages.
